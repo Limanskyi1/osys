@@ -1,0 +1,117 @@
+@keyframes animBorderToolkit {
+  0% {
+    width: 124%;
+    height: 106%;
+    opacity: 1;
+  }
+  50% {
+    width: 134%;
+    height: 116%;
+    opacity: 0;
+  }
+  100% {
+    width: 124%;
+    height: 106%;
+    opacity: 1;
+  }
+}
+
+.toolkit {
+  .toolkit__info {
+    flex-shrink: 0;
+    @media (max-width: 992px) {
+      width: 54%;
+    }
+    @media (max-width: 576px) {
+      width: 100%;
+      padding-right: 6vw;
+    }
+  }
+  .wrap {
+    padding: 50px 0 0 50px;
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    justify-content: space-between;
+    overflow: hidden;
+    @media (max-width: 576px) {
+      flex-direction: column;
+      padding: 40px 0 0 25px;
+    }
+  }
+  .toolkit__tablet {
+    @include width(814, 1375);
+    position: relative;
+
+    @media (max-width: 992px) {
+      width: 46.2%;
+      margin-top: 20%;
+    }
+    @media (max-width: 576px) {
+      align-self: flex-end;
+      width: 64.2%;
+    }
+    & > img {
+      &:first-of-type {
+        display: block;
+        @media (max-width: 992px) {
+          display: none;
+        }
+      }
+      &:last-of-type {
+        display: none;
+        @media (max-width: 992px) {
+          display: block;
+        }
+      }
+    }
+  }
+  .toolkit__indicators {
+    @include width(474, 814);
+    position: absolute;
+    left: 11%;
+    bottom: 9%;
+    @media (max-width: 992px) {
+      width: 114.230958%;
+      left: -2%;
+      bottom: 16%;
+    }
+  }
+  .toolkit__menu {
+    @include width(88, 814);
+    position: absolute;
+    left: -6%;
+    bottom: 20%;
+    @media (max-width: 992px) {
+      width: 30.810811%;
+      left: -36%;
+      bottom: 20%;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      background: url(../img/home/pointer.svg);
+      width: 27px;
+      height: 27px;
+      transition: 0.3s ease-in-out;
+      top: 37%;
+      left: 50%;
+    }
+    &::before {
+      @include afterAnim;
+      border-image: url(../img/home/border-3.svg) 0 0 fill;
+      animation: animBorderToolkit 5s infinite;
+    }
+  }
+  .toolkit__svg {
+    position: absolute;
+    left: -34.1%;
+    top: 44%;
+    width: 27%;
+    @media (max-width: 992px) {
+      left: -96.1%;
+      top: 44%;
+      width: 62%;
+    }
+  }
+}
