@@ -1,0 +1,17 @@
+
+.info-block {
+  @include width(340, 1375);
+  h4 {
+    @include adaptiv-font(25, 17);
+    @include mb(14, 20);
+  }
+  p {
+    @include adaptiv-font(16, 15);
+    line-height: 161%;
+    color: var(--text-dark);
+  }
+}
+
+
+
+

@@ -1,0 +1,122 @@
+add_action('wp_ajax_ajax_form', 'ajax_form');
+add_action('wp_ajax_nopriv_ajax_form', 'ajax_form');
+
+function ajax_form()
+{
+
+
+//    $fname = $_POST['fname'];
+//    $lname = $_POST['lname'];
+//    $fullphone = $_POST['phone']; // \D [^0-9]
+//    $email = $_POST['email'];
+//    $password = $_POST['pass'];
+//    $promo = $_POST['promo'];
+
+    extract(array_map("htmlspecialchars", $_POST), EXTR_OVERWRITE);
+
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || empty($email)) {
+        echo '1';
+        die();
+    }
+
+
+
+
+
+    if (preg_match("/^(\S*|[0-9]{7,25})/", $pass) == 0 or empty($pass)) {
+        echo '4';
+        die();
+    }
+//    if (preg_match("/^\+[0-9\s\-\( \) ]{3,24}/", $phone) == 0 || empty($phone)) {
+//        echo '5';
+//        die();
+//    }
+
+    if(empty($promo)){
+        $link_id = '675';
+        }else {
+        $link_id = '';
+    }
+
+    $promo_sheet = ['295642','998837'];
+    if (!in_array($promo, $promo_sheet)) {
+        $link_id = '1109';
+        $promo = '';
+    }
+
+   if(empty($tradeserv)){
+        $tradeserv = 'WebTrade';
+    }
+
+    $url = "https://marketing.affboat.com/api/v3/integration";
+//    ?api_token=qTBkzadtPj0Ax3iQcyPwzbDZlmo3DRJmrFmu5JFVxG5PSq3LWyybNrCxVoBw
+
+    $ip = isset($_SERVER['HTTP_CLIENT_IP']) ? $_SERVER['HTTP_CLIENT_IP'] : isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+    $domain = $_SERVER['SERVER_NAME'];
+   // $phone =  '+91' . strval(current_time('timestamp'));
+
+    $apiData = [
+        'api_token' => "qTBkzadtPj0Ax3iQcyPwzbDZlmo3DRJmrFmu5JFVxG5PSq3LWyybNrCxVoBw",
+        'fname' => $fname,
+        'lname' => isset($lname) ? $lname : 'None',
+        'fullphone' => $phone,
+        'ip' => $ip,
+        'email' => $email,
+        'pass' => $pass,
+        'domain' => $domain,
+        'source' => "grand-markets.com",
+        'client_source' => $domain,
+        'country' => isset($country) ? $country : "RU",
+        'link_id' => $link_id,
+        'utm_source' => isset($utm_source) ? $utm_source : "",
+        'utm_medium' => isset($utm_medium) ? $utm_medium : "",
+        'utm_campaign' => isset($utm_campaign) ? $utm_campaign : "",
+        'utm_term' => isset($utm_term) ? $utm_term : "",
+        'utm_content' => isset($utm_content) ? $utm_content : "",
+        'click_id' => isset($click_id) ? $click_id : "",
+        'promo' => isset($promo) ? $promo : "",
+        'trading_platform' => isset($tradeserv) ? $tradeserv : "WebTrade",
+        // 'link_id' =>
+    ];
+
+    header('Content-Type: application/json');
+
+    try {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt(
+            $ch,
+            CURLOPT_POSTFIELDS,
+            http_build_query($apiData)
+        );
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $server_output = curl_exec($ch);
+        $response = json_decode($server_output);
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        die;
+    }
+
+    if ($response->success) {
+        echo json_encode([
+            'success' => true,
+            'autologin' => $response->autologin,
+            'password' => ($response->password),
+            'login' => ($apiData['email'])
+        ]);
+        die;
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Server error!',
+            'debug' => json_encode($response)
+
+        ]);
+        die;
+    }
+}

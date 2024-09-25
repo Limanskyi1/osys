@@ -1,0 +1,44 @@
+#progressCircle{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 65px;
+    height: 65px;
+    transition: .3s ease-in-out;
+    cursor: pointer;
+    &:hover{
+        transform: scale(1.1);
+    }
+    text{
+        fill: #fff;
+        font-family: var(--font-family)
+    }
+    #outerCircle{
+        stroke: #fff;
+    }
+    #innerCircle{
+        stroke: #3891d6;
+    }
+    &.done{
+        animation: shakeX 1s;
+        #innerCircle{
+            stroke: rgb(53, 231, 53);
+        }
+        text{
+            fill: rgb(53, 231, 53);
+        }
+    }
+}
+
+@keyframes fillAnimation {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 red;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

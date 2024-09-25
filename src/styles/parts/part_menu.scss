@@ -1,0 +1,28 @@
+.header__menu {
+    margin-left: 40px;
+    @media (max-width: 991px){
+        display: none;
+    }
+    .container {
+        @media (max-width: 1200px){
+            padding: 0;
+        }
+    }
+    .top_header_link {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        @media (max-width: 1200px){
+            gap: 20px;
+        }
+    }
+    .menu-closer {
+        display: none;
+    }
+
+    li {
+        font-family: var(--font-family);
+        @include adaptiv-font(18,15);
+        color: var(--text);
+    }
+}
